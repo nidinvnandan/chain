@@ -46,7 +46,7 @@ vector_index = vector()
 model = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=GOOGLE_API_KEY,
                              temperature=0.7,convert_system_message_to_human=True)
 # Define the function
-def answer_question(input_text):
+def answer_question(model, vector_index):
     template = """be act like a HR officer and answer the questions to the employye in detail
     {context}
     Question: {question}
