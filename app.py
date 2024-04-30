@@ -64,7 +64,7 @@ query = st.text_input('Enter the query')
 if st.button('➤'):
     if query:
         qa_chain = answer_question(model, vector_index)
-        result = qa_chain({"query": question})
+        result = qa_chain({"query": query})
 
         st.write(result["result"])
     else:
