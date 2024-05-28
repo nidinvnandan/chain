@@ -20,7 +20,7 @@ from langchain.chains import RetrievalQA
 from langchain.chains.question_answering import load_qa_chain
 from langchain.docstore.document import Document
 from langchain.memory import ConversationBufferMemory
-
+from langchain_community.vectorstores import FAISS
 
 st.title("HR Chatbot 🤖")
 @st.cache_resource
@@ -28,22 +28,22 @@ def load_and_split_pdf(pdf_path):
     pdf_loader = PyPDFLoader(pdf_path)
     pages = pdf_loader.load_and_split()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=100)
-    context = "\n\n".join(str(p.page_content) for p in pages)
-    texts = text_splitter.split_text(context)
+    texts = text_splitter.split_documents(docs)
     return texts
 pdf_path = "ZETA_CORPORATION.pdf"
 texts = load_and_split_pdf(pdf_path)
 GOOGLE_API_KEY=os.getenv('GOOGLE_API')
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",convert_system_message_to_human=True)
+@st.cache_resource
 def vector():
 
-    vector_index =  Chroma.from_texts(texts, embeddings)
-    vector_index=vector_index.as_retriever(search_type='mmr')
+    vector_index =  FAISS.from_documents(documents, embeddings)
+    vector_index=vector_index.as_retriever()
     return vector_index
 vector_index = vector()
 
-model = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=GOOGLE_API_KEY,
+model = ChatGoogleGenerativeAI(model="gemini-pro",
                              temperature=0.7,convert_system_message_to_human=True)
 # Define the function
 def answer_question(model, vector_index):
