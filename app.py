@@ -34,7 +34,8 @@ def load_and_split_pdf(pdf_path):
 pdf_path = "ZETA_CORPORATION.pdf"
 texts = load_and_split_pdf(pdf_path)
 GOOGLE_API_KEY=os.getenv('GOOGLE_API')
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",google_api_key=GOOGLE_API_KEY,convert_system_message_to_human=True)
+os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
+embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",convert_system_message_to_human=True)
 @st.cache_resource
 def vector():
 
