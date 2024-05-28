@@ -36,7 +36,6 @@ texts = load_and_split_pdf(pdf_path)
 GOOGLE_API_KEY=os.getenv('GOOGLE_API')
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",convert_system_message_to_human=True)
-@st.cache_resource
 def vector():
 
     vector_index =  Chroma.from_texts(texts, embeddings)
