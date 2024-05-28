@@ -6,5 +6,6 @@ langchain-google-genai
 langchain
 langchain-community
 ipython
+faiss-cpu
 pypdf
 chromadb == 0.3.29
