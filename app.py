@@ -38,7 +38,7 @@ embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",convert_s
 @st.cache_resource
 def vector():
 
-    vector_index =  FAISS.from_documents(documents, embeddings)
+    vector_index =  FAISS.from_documents(texts, embeddings)
     vector_index=vector_index.as_retriever()
     return vector_index
 vector_index = vector()
