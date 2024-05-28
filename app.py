@@ -26,7 +26,7 @@ st.title("HR Chatbot 🤖")
 @st.cache_resource
 def load_and_split_pdf(pdf_path):
     pdf_loader = PyPDFLoader(pdf_path)
-    pages = pdf_loader.load_and_split()
+    docs = pdf_loader.load_and_split()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=100)
     texts = text_splitter.split_documents(docs)
     return texts
